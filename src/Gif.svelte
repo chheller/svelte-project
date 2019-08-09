@@ -1,14 +1,17 @@
 <script>
   import { gifState } from "./state.js";
   export let gif;
+  export let disableHoverState;
   export let state = gifState.STILL;
 
   const handleMouseEnter = () => {
-    if (state === gifState.PAUSED) state = gifState.PLAYING;
+    if (!disableHoverState && state === gifState.PAUSED)
+      state = gifState.PLAYING;
   };
 
   const handleMouseLeave = () => {
-    if (state === gifState.PLAYING) state = gifState.PAUSED;
+    if (!disableHoverState && state === gifState.PLAYING)
+      state = gifState.PAUSED;
   };
 </script>
 

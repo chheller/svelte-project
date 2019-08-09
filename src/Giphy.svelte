@@ -6,6 +6,7 @@
   const API_URL = `https://api.giphy.com/v1/gifs/search?api_key=${api_key}`;
 
   let searchTerm = "";
+  let isPlayingAll = false;
   let gifs = [];
 
   const limit = limit => `&limit=${limit}`;
@@ -25,11 +26,11 @@
     }));
 
   const playAll = () => {
-    gifs = gifs.map(gif => ({ ...gif, state: gifState.PLAYING }));
+    if (!isPlayingAll) isPlayingAll = true;
   };
 
   const pauseAll = () => {
-    gifs = gifs.map(gif => ({ ...gif, state: gifState.PAUSED }));
+    if (isPlayingAll) isPlayingAll = false;
   };
 </script>
 
@@ -63,7 +64,11 @@
   </div>
   <div class="gifs-container">
     {#each gifs as gif, index}
-      <Gif {gif} state={gif.state} data-image-id={index} />
+      <Gif
+        {gif}
+        state={(isPlayingAll && gifState.PLAYING) || gif.state}
+        disableHoverState={isPlayingAll}
+        data-image-id={index} />
     {/each}
   </div>
 </div>
